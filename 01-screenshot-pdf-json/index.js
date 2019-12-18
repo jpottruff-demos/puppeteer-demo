@@ -1,7 +1,7 @@
 // Load in puppeteer
 const puppeteer = require('puppeteer');
 
-//this wrapper means 'immediately execute this code
+//This wrapper means 'immediately execute this code
 void (async () => {
     // Wrapper to catch errrors
     try {
@@ -15,15 +15,29 @@ void (async () => {
         // Navigate to a website
         await page.goto('https://scrapethissite.com/pages/forms');
        
-        // Take a screenshot, then save it to a folder/file
+        // SCREENSHOT - Take a screenshot, then save it to a folder/file
         await page.screenshot({
             path: './screenshots/page1.png'
         });
 
-        // Generate a PDF of the page and save it to a folder/file
+        // PDF - Generate a PDF of the page and save it to a folder/file
         await page.pdf({
             path:'./pdfs/page1.pdf'
-        });        
+        });
+        
+        
+
+
+        // ALTERNATE - could do it this way using variables
+        // (**NOTE: subfolders must be already created**)
+        
+        // const targetSite = 'https://scrapethissite.com/pages/forms';
+        // const screenshotDir = './screenshots/page1.png';
+        // const pdfDir = './pdfs/page1.pdf';
+
+        // await page.goto(targetSite);
+        // await page.screenshot({path: `${screenshotDir}` });
+        // await page.pdf({path: `${pdfDir}` });
 
 
         /** GETTING DATA **/
@@ -59,12 +73,14 @@ void (async () => {
             // Finally, return the data
             return data; 
         });
-        // Loggin to illustrate the concept
-        //NOTE: JSON.stringify and params/arguments
+
+        // JSON
+        // Logging to illustrate the concept
+        // NOTE: JSON.stringify and params/arguments
         console.log(teams);
         console.log( JSON.stringify(teams, null, 2) );
 
-        //BONUS - Save as a file
+        //JSON FILE - Save as a file
         const fs = require('fs');
         fs.writeFile(
             './json/teams.json',
@@ -73,25 +89,11 @@ void (async () => {
         )
 
 
-
-
-
-        // OR could do it this way (**NOTE: subfolders must be already created**)
-        // const targetSite = 'https://f45challenge.com/';
-        // const screenshotDir = './screenshots/f45Test/challenge-home.png';
-        // const pdfDir = './pdfs/f45test/challenge-home.pdf';
-        // console.log('doin more stuff.......');
-
-        // await page.goto(targetSite);
-        // await page.screenshot({path: `${screenshotDir}` });
-        // await page.pdf({path: `${pdfDir}` });
-
-
         // Close the browser
         await browser.close();
 
     } catch {
-        // Catch any errors and log it
+        // Catch any errors and log them
         console.log(error);
     }
 })()
